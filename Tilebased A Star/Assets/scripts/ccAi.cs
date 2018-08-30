@@ -60,9 +60,9 @@ public class ccAi : MonoBehaviour {
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		location = new orderedPair(0,0);
-		foreach(tile tile in tileGenerator.tiles){
-			graph.Add (new node(new orderedPair(tile.x, tile.y), tile.isObstacle));
-		}
+		//foreach(tile tile in tileGenerator.tiles){
+		//	graph.Add (new node(new orderedPair(tile.x, tile.y), tile.isObstacle));
+		//}
 	}
 
 	void Update () {
@@ -78,8 +78,8 @@ public class ccAi : MonoBehaviour {
 
 
 
-		xPos = location.x;
-		yPos = location.y;
+		//xPos = location.x;
+		//yPos = location.y;
 	}
 
 	public void FindPath(orderedPair destination){

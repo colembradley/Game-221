@@ -121,6 +121,12 @@ public class TileGraph
 
 public class Node
 {
+
+    public Node(Vector3 pos)
+    {
+        position = pos;
+    }
+
     public Vector3 position;
 
 
