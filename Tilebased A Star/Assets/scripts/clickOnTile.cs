@@ -25,7 +25,6 @@ public class clickOnTile : MonoBehaviour {
 					Vector3 currentPosition = new Vector3 (ai.xPos, 0f, ai.yPos);
 					//Vector3 destination = new Vector3 (6f,0f,0f);
 					ai.FollowPath(generatedTiles.PathfindWithVectors (currentPosition, hit.transform.position));
-                    print("Location: " + hit.transform.position);
 				}
 			}
 		}

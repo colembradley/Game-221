@@ -25,28 +25,32 @@ public class Dijkstra : MonoBehaviour
 
             foreach(Node connectedNode in smallestCostSoFar.graphNode.connections.Keys)
             {
-                if(!DoesListContainNode(connectedNode, closedList))
+                if (!connectedNode.obstacle)
                 {
-                    if(!DoesListContainNode(connectedNode, openList))
+                    if (!DoesListContainNode(connectedNode, closedList))
                     {
-                        float costToConnectedNode = smallestCostSoFar.costSoFar + smallestCostSoFar.graphNode.connections[connectedNode];
-                        PathfindingNode predecessor = smallestCostSoFar;
-
-                        pathfindingNodes.Add(connectedNode, new PathfindingNode(connectedNode, costToConnectedNode, predecessor));
-                        openList.Add(pathfindingNodes[connectedNode]);
-                    } else
-                    {
-                        // Is the connection from the currently processing node faster
-                        //than the existing connection to this target node?
-                        // If so, update the target node.
-
-                        float currentCostToTarget = pathfindingNodes[connectedNode].costSoFar;
-                        float costToTargetThroughCurrentNode = smallestCostSoFar.costSoFar + smallestCostSoFar.graphNode.connections[connectedNode];
-
-                        if(costToTargetThroughCurrentNode < currentCostToTarget)
+                        if (!DoesListContainNode(connectedNode, openList))
                         {
-                            pathfindingNodes[connectedNode].costSoFar = costToTargetThroughCurrentNode;
-                            pathfindingNodes[connectedNode].predecessor = smallestCostSoFar;
+                            float costToConnectedNode = smallestCostSoFar.costSoFar + smallestCostSoFar.graphNode.connections[connectedNode] + Vector3.Distance(connectedNode.position, toNode.position);
+                            PathfindingNode predecessor = smallestCostSoFar;
+
+                            pathfindingNodes.Add(connectedNode, new PathfindingNode(connectedNode, costToConnectedNode, predecessor));
+                            openList.Add(pathfindingNodes[connectedNode]);
+                        }
+                        else
+                        {
+                            // Is the connection from the currently processing node faster
+                            //than the existing connection to this target node?
+                            // If so, update the target node.
+
+                            float currentCostToTarget = pathfindingNodes[connectedNode].costSoFar + Vector3.Distance(connectedNode.position, toNode.position);
+                            float costToTargetThroughCurrentNode = smallestCostSoFar.costSoFar + smallestCostSoFar.graphNode.connections[connectedNode];
+
+                            if (costToTargetThroughCurrentNode < currentCostToTarget)
+                            {
+                                pathfindingNodes[connectedNode].costSoFar = costToTargetThroughCurrentNode;
+                                pathfindingNodes[connectedNode].predecessor = smallestCostSoFar;
+                            }
                         }
                     }
                 }
@@ -62,12 +66,19 @@ public class Dijkstra : MonoBehaviour
         //Destination node is on closed list
         //All of its predecessors are also on the closed list
 
+        MonoBehaviour.print("Pathfinding nodes is size: " + pathfindingNodes.Count);
+        
         for (PathfindingNode waypoint = pathfindingNodes[toNode]; waypoint != null; waypoint = waypoint.predecessor)
         {
             waypoints.Add(waypoint.graphNode.position);
         }
-			
 
+        /*
+        foreach (PathfindingNode waypoint in closedList)
+        {
+            waypoints.Add(waypoint.graphNode.position);
+        }
+        */
         waypoints.Reverse();
 
         return waypoints;
@@ -133,6 +144,8 @@ public class Node
 
 
     public Dictionary<Node, float> connections = new Dictionary<Node, float>();
+
+    public bool obstacle;
 
 
 }

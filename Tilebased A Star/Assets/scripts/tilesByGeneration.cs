@@ -28,8 +28,13 @@ public class tilesByGeneration : MonoBehaviour {
 				}
 
                 Node tileNode = new Node(newTile.transform.position);
+                if(Random.Range(0, 9) == 1)
+                {
+                    newTile.GetComponent<Renderer>().material.color = Color.red;
+                    tileNode.obstacle = true;
+                }
                 nodesByPosition.Add(tileNode.position, tileNode);
-				print (tileNode.position);
+				//print (tileNode.position);
 
                 //newTile.GetComponent<NodeBinding>().node = tileNode;
                 tilesToNode.Add(newTile, tileNode);
@@ -54,11 +59,13 @@ public class tilesByGeneration : MonoBehaviour {
             if (left != null)
                 currentNode.connections.Add(left, 1);
 
-            Node up = LookupNode(nodePosition + Vector3.up);
+            Node up = LookupNode(nodePosition + Vector3.forward);
             if (up != null)
+            {
                 currentNode.connections.Add(up, 1);
+            }
 
-            Node down = LookupNode(nodePosition + Vector3.down);
+            Node down = LookupNode(nodePosition + Vector3.back);
             if (down != null)
                 currentNode.connections.Add(down, 1);
         }
