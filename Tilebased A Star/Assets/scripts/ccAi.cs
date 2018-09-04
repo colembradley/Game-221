@@ -41,8 +41,8 @@ public class ccAi : MonoBehaviour {
 		controller.Move (new Vector3(0f, -gravity * Time.deltaTime, 0f));
 		//follow path
 		if (seek) {
-			target = waypoints[currentWaypoint];
 			if (!(currentWaypoint > waypoints.Count - 1)) {
+				target = waypoints[currentWaypoint];
 				Vector3 offset = (target - transform.position);
 				controller.Move ((offset.normalized *moveSpeed) * Time.deltaTime);
 				if (offset.magnitude < satisfactionRadius) {

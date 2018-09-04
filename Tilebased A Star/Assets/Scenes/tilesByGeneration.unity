@@ -2418,7 +2418,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 65
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2443,7 +2443,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0.7071065, y: -0, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: 4.72, y: 13.09, z: 4.41}
+  m_LocalPosition: {x: 4.72, y: 10.45, z: 4.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3984,10 +3984,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 3
   tileGenerator: {fileID: 0}
-  target: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
   seek: 0
   moveSpeed: 2
   satisfactionRadius: 0.53
+  waypoints: []
+  currentWaypoint: 0
   xPos: 0
   yPos: 0
 --- !u!1 &797557759

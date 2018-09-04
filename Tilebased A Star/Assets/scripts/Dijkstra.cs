@@ -51,7 +51,6 @@ public class Dijkstra : MonoBehaviour
                     }
                 }
             }
-
             closedList.Add(smallestCostSoFar);
             openList.Remove(smallestCostSoFar);
 
@@ -67,6 +66,7 @@ public class Dijkstra : MonoBehaviour
         {
             waypoints.Add(waypoint.graphNode.position);
         }
+			
 
         waypoints.Reverse();
 

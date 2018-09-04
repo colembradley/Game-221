@@ -23,10 +23,13 @@ public class tilesByGeneration : MonoBehaviour {
             {
                 GameObject newTile = Instantiate(tileTemplate);
                 newTile.transform.position = new Vector3(x, 0, z);
+				if ((x+ (z%2)) % 2 == 0) {
+					newTile.GetComponent<Renderer> ().material.color = Color.gray;
+				}
 
                 Node tileNode = new Node(newTile.transform.position);
                 nodesByPosition.Add(tileNode.position, tileNode);
-				//print (tileNode.position + " " + tileNode);
+				print (tileNode.position);
 
                 //newTile.GetComponent<NodeBinding>().node = tileNode;
                 tilesToNode.Add(newTile, tileNode);

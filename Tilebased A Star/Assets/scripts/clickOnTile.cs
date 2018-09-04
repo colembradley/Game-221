@@ -22,10 +22,10 @@ public class clickOnTile : MonoBehaviour {
 				if (hit.transform.tag == "tile") {
                     /*ai.FindPath(new orderedPair(Mathf.RoundToInt(hit.transform.position.x),
 												Mathf.RoundToInt(hit.transform.position.z))); */
-					Vector3 currentPosition = new Vector3 (0f,0f,0f);
-					Vector3 destination = new Vector3 (3f,0f,0f);
-					ai.FollowPath(generatedTiles.PathfindWithVectors (currentPosition, destination));
-                    print("Location: " + hit.transform.position + " Node: ?" );
+					Vector3 currentPosition = new Vector3 (ai.xPos, 0f, ai.yPos);
+					//Vector3 destination = new Vector3 (6f,0f,0f);
+					ai.FollowPath(generatedTiles.PathfindWithVectors (currentPosition, hit.transform.position));
+                    print("Location: " + hit.transform.position);
 				}
 			}
 		}
