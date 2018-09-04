@@ -2,60 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class orderedPair{
-	public int x = 0;
-	public int y = 0;
-
-	public orderedPair(int inputX, int inputY){
-		x = inputX;
-		y = inputY;
-	}
-}
-
-public class node{
-	public orderedPair location;
-	public node from;
-	public bool traversable = true;
-	public int cost = 0;
-
-	public node(orderedPair inputLocation, bool inputTraversable){
-		location = inputLocation;
-		traversable = inputTraversable;
-	}
-
-	public node(orderedPair inputLocation, bool inputTraversable, int inputCost){
-		location = inputLocation;
-		traversable = inputTraversable;
-		cost = inputCost;
-	}
-
-	public node(orderedPair inputLocation, bool inputTraversable, node inputFrom, int inputCost){
-		location = inputLocation;
-		traversable = inputTraversable;
-		from = inputFrom;
-		cost = inputCost;
-	}
-}
-
 public class ccAi : MonoBehaviour {
 
 	public float gravity = 1f;
 	CharacterController controller;
 	public tileGenerator tileGenerator;
 
-	public Transform target;
+	public Vector3 target;
 	public bool seek = false;
 	public float moveSpeed = 2f;
 	public float satisfactionRadius = 0.25f;
 
 	//Pathfinding
+
+	public List<Vector3> waypoints;
+	public int currentWaypoint;
+
 	public int xPos;
 	public int yPos;
 	public orderedPair location;
+	/*
 	public List<node> graph = new List<node>();
 	public List<node> open = new List<node>();
 	public List<node> closed = new List<node>();
 	public List<node> path = new List<node>();
+	*/
 
 	void Start () {
 		controller = GetComponent<CharacterController> ();
@@ -66,22 +37,36 @@ public class ccAi : MonoBehaviour {
 	}
 
 	void Update () {
+		//gravity
 		controller.Move (new Vector3(0f, -gravity * Time.deltaTime, 0f));
+		//follow path
 		if (seek) {
-			Vector3 offset = (target.position - transform.position);
-			controller.Move ((offset.normalized *moveSpeed) * Time.deltaTime);
-			if (offset.magnitude < satisfactionRadius) {
+			target = waypoints[currentWaypoint];
+			if (!(currentWaypoint > waypoints.Count - 1)) {
+				Vector3 offset = (target - transform.position);
+				controller.Move ((offset.normalized *moveSpeed) * Time.deltaTime);
+				if (offset.magnitude < satisfactionRadius) {
+					currentWaypoint++;
+					location = new orderedPair (Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.z));
+				}
+			} else {
 				seek = false;
-				location = new orderedPair (Mathf.RoundToInt(target.position.x), Mathf.RoundToInt(target.position.z));
+				location = new orderedPair (Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.z));
 			}
 		}
 
-
-
-		//xPos = location.x;
-		//yPos = location.y;
+		xPos = location.x;
+		yPos = location.y;
 	}
 
+	public void FollowPath(List<Vector3> path){
+		seek = false;
+		currentWaypoint = 0;
+		waypoints = path;
+		seek = true;
+	}
+
+	/*
 	public void FindPath(orderedPair destination){
 		int cost = 0;
 		int iteration = 0;
@@ -129,5 +114,41 @@ public class ccAi : MonoBehaviour {
 			}
 		}
 		return null;
+	}
+	*/
+}
+
+public class orderedPair{
+	public int x = 0;
+	public int y = 0;
+
+	public orderedPair(int inputX, int inputY){
+		x = inputX;
+		y = inputY;
+	}
+}
+
+public class node{
+	public orderedPair location;
+	public node from;
+	public bool traversable = true;
+	public int cost = 0;
+
+	public node(orderedPair inputLocation, bool inputTraversable){
+		location = inputLocation;
+		traversable = inputTraversable;
+	}
+
+	public node(orderedPair inputLocation, bool inputTraversable, int inputCost){
+		location = inputLocation;
+		traversable = inputTraversable;
+		cost = inputCost;
+	}
+
+	public node(orderedPair inputLocation, bool inputTraversable, node inputFrom, int inputCost){
+		location = inputLocation;
+		traversable = inputTraversable;
+		from = inputFrom;
+		cost = inputCost;
 	}
 }

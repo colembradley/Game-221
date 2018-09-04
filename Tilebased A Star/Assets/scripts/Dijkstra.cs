@@ -5,7 +5,7 @@ using UnityEngine;
 public class Dijkstra : MonoBehaviour
 {
 
-    public static List<Vector3> Pathfind(TileGraph graph, Node fromNode, Node toNode)
+    public static List<Vector3> Pathfind(Node fromNode, Node toNode)
     {
         List<Vector3> waypoints = new List<Vector3>();
         //todo implement dijkstra algorithm.
@@ -82,6 +82,8 @@ public class Dijkstra : MonoBehaviour
     }
 
 }
+
+
 
 
 public class PathfindingNode : System.IComparable<PathfindingNode>

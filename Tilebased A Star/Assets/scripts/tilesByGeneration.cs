@@ -11,9 +11,11 @@ public class tilesByGeneration : MonoBehaviour {
 
     public Dictionary<GameObject, Node> tilesToNode = new Dictionary<GameObject, Node>();
 
+	public Dictionary<Vector3, Node> nodesByPosition = new Dictionary<Vector3, Node>();
+
 	void Start () {
 
-        Dictionary<Vector3, Node> nodesByPosition = new Dictionary<Vector3, Node>();
+        
 
         for (int x = 0; x < gridWidth; x++)
         {
@@ -24,6 +26,7 @@ public class tilesByGeneration : MonoBehaviour {
 
                 Node tileNode = new Node(newTile.transform.position);
                 nodesByPosition.Add(tileNode.position, tileNode);
+				//print (tileNode.position + " " + tileNode);
 
                 //newTile.GetComponent<NodeBinding>().node = tileNode;
                 tilesToNode.Add(newTile, tileNode);
@@ -40,32 +43,38 @@ public class tilesByGeneration : MonoBehaviour {
             Node currentNode = nodesByPosition[nodePosition];
             Dictionary<Node, float> weightedConnections = currentNode.connections;
 
-            Node right = LookupNode(nodesByPosition, nodePosition + Vector3.right);
+            Node right = LookupNode(nodePosition + Vector3.right);
             if (right != null)
                 currentNode.connections.Add(right, 1);
 
-            Node left = LookupNode(nodesByPosition, nodePosition + Vector3.left);
+            Node left = LookupNode(nodePosition + Vector3.left);
             if (left != null)
                 currentNode.connections.Add(left, 1);
 
-            Node up = LookupNode(nodesByPosition, nodePosition + Vector3.up);
+            Node up = LookupNode(nodePosition + Vector3.up);
             if (up != null)
                 currentNode.connections.Add(up, 1);
 
-            Node down = LookupNode(nodesByPosition, nodePosition + Vector3.down);
+            Node down = LookupNode(nodePosition + Vector3.down);
             if (down != null)
                 currentNode.connections.Add(down, 1);
         }
 	}
 
-    Node LookupNode(Dictionary<Vector3, Node> nodes, Vector3 lookup)
+    public Node LookupNode(Vector3 lookup)
     {
-        if (!nodes.ContainsKey(lookup))
-            return null;
-        return nodes[lookup];
+		if (!nodesByPosition.ContainsKey (lookup)) {
+			return null;
+		} else {
+			return nodesByPosition [lookup];
+		}
     }
 	
 	void Update () {
 		
+	}
+
+	public List<Vector3> PathfindWithVectors(Vector3 start, Vector3 end){
+		return Dijkstra.Pathfind(LookupNode(start), LookupNode(end));
 	}
 }
