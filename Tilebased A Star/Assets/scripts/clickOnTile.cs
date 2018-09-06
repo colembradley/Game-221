@@ -16,17 +16,42 @@ public class clickOnTile : MonoBehaviour {
     }
 
     void Update () {
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit hit;
 			if (Physics.Raycast (GetComponent<Camera> ().ScreenPointToRay(Input.mousePosition), out hit)) {
 				if (hit.transform.tag == "tile") {
-                    /*ai.FindPath(new orderedPair(Mathf.RoundToInt(hit.transform.position.x),
-												Mathf.RoundToInt(hit.transform.position.z))); */
 					Vector3 currentPosition = new Vector3 (ai.xPos, 0f, ai.yPos);
-					//Vector3 destination = new Vector3 (6f,0f,0f);
 					ai.FollowPath(generatedTiles.PathfindWithVectors (currentPosition, hit.transform.position));
 				}
 			}
 		}
-	}
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                if (hit.transform.tag == "tile")
+                {
+                    bool isObstacle = generatedTiles.LookupNode(hit.transform.position).obstacle;
+                    generatedTiles.LookupNode(hit.transform.position).obstacle = !isObstacle;
+                    if (!isObstacle)
+                    {
+                        generatedTiles.LookupTile(hit.transform.position).GetComponent<Renderer>().material.color = Color.red;
+                    }
+                    else
+                    {
+                        if ((generatedTiles.LookupNode(hit.transform.position).position.x + (generatedTiles.LookupNode(hit.transform.position).position.z % 2)) % 2 == 0)
+                        {
+                            generatedTiles.LookupTile(hit.transform.position).GetComponent<Renderer>().material.color = Color.gray;
+                        }
+                        else
+                        {
+                            generatedTiles.LookupTile(hit.transform.position).GetComponent<Renderer>().material.color = Color.white;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
 }

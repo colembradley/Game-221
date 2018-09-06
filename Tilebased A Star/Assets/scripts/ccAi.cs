@@ -68,6 +68,12 @@ public class ccAi : MonoBehaviour {
 		seek = true;
 	}
 
+    public void Reroute()
+    {
+        IMpleEmenT meE reEEEEEeE;
+        //use the last waypoint and the pathfinding in tilesByGeneration. If possible.
+    }
+
 	/*
 	public void FindPath(orderedPair destination){
 		int cost = 0;

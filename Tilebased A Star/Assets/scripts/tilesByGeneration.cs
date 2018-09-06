@@ -9,7 +9,7 @@ public class tilesByGeneration : MonoBehaviour {
 
     public GameObject tileTemplate;
 
-    public Dictionary<GameObject, Node> tilesToNode = new Dictionary<GameObject, Node>();
+    public Dictionary<Node, GameObject> tilesToNode = new Dictionary<Node, GameObject>();
 
 	public Dictionary<Vector3, Node> nodesByPosition = new Dictionary<Vector3, Node>();
 
@@ -28,7 +28,7 @@ public class tilesByGeneration : MonoBehaviour {
 				}
 
                 Node tileNode = new Node(newTile.transform.position);
-                if(Random.Range(0, 9) == 1)
+                if((x > 1 || z > 1) && Random.Range(0, 11) <= 1)
                 {
                     newTile.GetComponent<Renderer>().material.color = Color.red;
                     tileNode.obstacle = true;
@@ -37,7 +37,7 @@ public class tilesByGeneration : MonoBehaviour {
 				//print (tileNode.position);
 
                 //newTile.GetComponent<NodeBinding>().node = tileNode;
-                tilesToNode.Add(newTile, tileNode);
+                tilesToNode.Add(tileNode, newTile);
 
                 //Todo
                 //How could I do it in an arbitrary scene?
@@ -79,12 +79,24 @@ public class tilesByGeneration : MonoBehaviour {
 			return nodesByPosition [lookup];
 		}
     }
-	
-	void Update () {
+
+    public GameObject LookupTile(Vector3 lookup)
+    {
+        if (!tilesToNode.ContainsKey(LookupNode(lookup)))
+        {
+            return null;
+        }
+        else
+        {
+            return tilesToNode[LookupNode(lookup)];
+        }
+    }
+
+    void Update () {
 		
 	}
 
 	public List<Vector3> PathfindWithVectors(Vector3 start, Vector3 end){
-		return Dijkstra.Pathfind(LookupNode(start), LookupNode(end));
+		return Dijkstra.PathfindAStar(LookupNode(start), LookupNode(end));
 	}
 }

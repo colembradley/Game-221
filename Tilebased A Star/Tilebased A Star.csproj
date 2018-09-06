@@ -297,11 +297,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\scripts\BigCount.cs" />
     <Compile Include="Assets\scripts\ccAi.cs" />
     <Compile Include="Assets\scripts\clickOnTile.cs" />
     <Compile Include="Assets\scripts\CreateNodesOnSurface.cs" />
     <Compile Include="Assets\scripts\Dijkstra.cs" />
+    <Compile Include="Assets\scripts\FrameRate.cs" />
     <Compile Include="Assets\scripts\NodeBinding.cs" />
+    <Compile Include="Assets\scripts\Rotate.cs" />
     <Compile Include="Assets\scripts\tileGenerator.cs" />
     <Compile Include="Assets\scripts\tilesByGeneration.cs" />
   </ItemGroup>
